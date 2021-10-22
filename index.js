@@ -1,8 +1,13 @@
 const express = require('express');
 const { MongoClient } = require('mongodb');
+const cors = require('cors');
 
 const app = express();
 const port = 5000;
+
+// Middleware
+app.use(cors());
+app.use(express.json());
 
 // user: mydbuser1
 // password: TLr4zLRvxFZ38BuB
@@ -14,16 +19,19 @@ async function run() {
     try {
       await client.connect();
       const database = client.db("foodMaster");
-      const userCollection = database.collection("users");
+      const usersCollection = database.collection("users");
       
         // Post API
         app.post('/users', async (req, res) => {
-            console.log('hitting the post');
-            res.send('hit the post');
+            const newUser = req.body;
+            const result = await usersCollection.insertOne(newUser);
+            console.log('Got new user', req.body);
+            console.log('Added user', result);
+            res.json(result);
         })
         
     } finally {
-      await client.close();
+    //   await client.close();
     }
   }
   run().catch(console.dir);
