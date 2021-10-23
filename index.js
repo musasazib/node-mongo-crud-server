@@ -25,10 +25,10 @@ async function run() {
     app.post('/users', async (req, res) => {
       const newUser = req.body;
       console.log(newUser)
-      // const result = await usersCollection.insertOne(newUser);
-      // console.log('Got new user', req.body);
-      // console.log('Added user', result);
-      // res.json(result);
+      const result = await usersCollection.insertOne(newUser);
+      console.log('Got new user', req.body);
+      console.log('Added user', result);
+      res.json(result);
     })
 
   } finally {
