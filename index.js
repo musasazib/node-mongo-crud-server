@@ -16,30 +16,31 @@ const uri = "mongodb+srv://mydbuser1:TLr4zLRvxFZ38BuB@cluster0.iyv3j.mongodb.net
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
 async function run() {
-    try {
-      await client.connect();
-      const database = client.db("foodMaster");
-      const usersCollection = database.collection("users");
-      
-        // Post API
-        app.post('/users', async (req, res) => {
-            const newUser = req.body;
-            const result = await usersCollection.insertOne(newUser);
-            console.log('Got new user', req.body);
-            console.log('Added user', result);
-            res.json(result);
-        })
-        
-    } finally {
+  try {
+    await client.connect();
+    const database = client.db("foodMaster");
+    const usersCollection = database.collection("users");
+
+    // Post API
+    app.post('/users', async (req, res) => {
+      const newUser = req.body;
+      console.log(newUser)
+      // const result = await usersCollection.insertOne(newUser);
+      // console.log('Got new user', req.body);
+      // console.log('Added user', result);
+      // res.json(result);
+    })
+
+  } finally {
     //   await client.close();
-    }
   }
-  run().catch(console.dir);
+}
+run().catch(console.dir);
 
 app.get('/', (req, res) => {
-    res.send('Running my CRUD server')
+  res.send('Running my CRUD server')
 });
 
 app.listen(port, () => {
-    console.log('Running server on port', port)
+  console.log('Running server on port', port)
 })
